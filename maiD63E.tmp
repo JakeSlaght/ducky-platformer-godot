@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://br7kqt3kh4b00"]
+
+[ext_resource type="Texture2D" uid="uid://7cikpmkrwryr" path="res://images/underlay_water.png" id="1_g0b3d"]
+[ext_resource type="PackedScene" uid="uid://bjv0xrhllcykg" path="res://map_logics/map.tscn" id="2_5lceh"]
+[ext_resource type="PackedScene" uid="uid://4o2nx7uj576a" path="res://duck/duck.tscn" id="3_x6w61"]
+[ext_resource type="Script" path="res://camera.gd" id="4_v88dk"]
+
+[node name="main" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(800, 600)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = -1.0
+offset_right = 1150.0
+offset_bottom = 647.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("1_g0b3d")
+
+[node name="map" parent="." instance=ExtResource("2_5lceh")]
+
+[node name="duck" parent="." node_paths=PackedStringArray("current_map") instance=ExtResource("3_x6w61")]
+unique_name_in_owner = true
+position = Vector2(117, 130)
+current_map = NodePath("../map")
+
+[node name="camera" type="Camera2D" parent="."]
+position = Vector2(7.00649e-45, 7.00649e-45)
+ignore_rotation = false
+enabled = false
+position_smoothing_enabled = true
+script = ExtResource("4_v88dk")

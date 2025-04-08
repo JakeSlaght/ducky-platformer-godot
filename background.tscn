@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://kg7mst531sth"]
+
+[ext_resource type="Texture2D" uid="uid://cw37x05ejy6f6" path="res://images/viewport_background_blue.png" id="1_oe7bk"]
+[ext_resource type="Texture2D" uid="uid://dy2df0dwuf6qa" path="res://images/basic blocks.png" id="2_2btr1"]
+
+[node name="background" type="Parallax2D"]
+repeat_size = Vector2(1147, 0)
+repeat_times = 9999
+
+[node name="background_color" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(800, 600)
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("1_oe7bk")
+metadata/_edit_use_anchors_ = true
+
+[node name="BasicBlocks" type="Sprite2D" parent="."]
+position = Vector2(-1248, -816)
+scale = Vector2(4, 3.5)
+texture = ExtResource("2_2btr1")

@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bbojvovpkc20p"]
+
+[ext_resource type="Texture2D" uid="uid://bkx4iagwytu15" path="res://images/egg_ender.png" id="1_aqoqq"]
+
+[node name="LevelEnding" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 16.0
+offset_bottom = 16.0
+texture = ExtResource("1_aqoqq")

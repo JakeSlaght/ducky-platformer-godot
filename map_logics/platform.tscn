@@ -1,0 +1,87 @@
+[gd_scene load_steps=9 format=3 uid="uid://csfh1qwklgjta"]
+
+[ext_resource type="Script" uid="uid://6w1xntpjg3qq" path="res://map_logics/platform.gd" id="1_fhblt"]
+[ext_resource type="Texture2D" uid="uid://d3slng4fhlkel" path="res://images/platform_image.png" id="2_x7bk4"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fhblt"]
+resource_name = "platform"
+texture = ExtResource("2_x7bk4")
+texture_region_size = Vector2i(32, 10)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -5, 16, -5, 16, 5, -16, 5)
+0:0/0/physics_layer_0/polygon_0/one_way = true
+
+[sub_resource type="TileSet" id="TileSet_x7bk4"]
+tile_size = Vector2i(32, 10)
+physics_layer_0/collision_layer = 5
+physics_layer_0/collision_mask = 3
+sources/0 = SubResource("TileSetAtlasSource_fhblt")
+
+[sub_resource type="Animation" id="Animation_x7bk4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("platform_sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_pc02j"]
+resource_name = "left_to_right"
+length = 2.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("platform_sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(64, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_fhblt"]
+resource_name = "up_and_down"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("platform_sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -64)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pc02j"]
+_data = {
+&"RESET": SubResource("Animation_x7bk4"),
+&"left_to_right": SubResource("Animation_pc02j"),
+&"up_and_down": SubResource("Animation_fhblt")
+}
+
+[node name="platform" type="Node2D"]
+script = ExtResource("1_fhblt")
+
+[node name="platform_sprite" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray(0, 0, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0)
+tile_set = SubResource("TileSet_x7bk4")
+use_kinematic_bodies = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_pc02j")
+}
