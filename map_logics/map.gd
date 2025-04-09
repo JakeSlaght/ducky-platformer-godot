@@ -7,6 +7,7 @@ class_name Map extends Node2D
 var platform_scene = load("res://map_logics/platform.tscn")
 var level_end_scene = load("res://level_ending.tscn")
 var duck_scene = load("res://duck/duck.tscn")
+var slug_scene = load("res://enemy.tscn")
 #var camera_scene = load("res://camera.tscn")
 
 var TILE_SIZE: int = 32
@@ -55,7 +56,9 @@ func generate_tile_from_pixel_coordinates(x: int, y: int) -> void:
 				2: #red - dirt
 					water.set_cell(Vector2i(x,y), source_id, Vector2i(1,0),0)
 				3: #black - enemies
-					pass
+					var new_enemy = slug_scene.instantiate()
+					new_enemy.global_position = Vector2(x * TILE_SIZE, y * TILE_SIZE)
+					add_child(new_enemy)
 				4: #gray(128) - wall
 					water.set_cell(Vector2i(x,y),source_id, Vector2i(4,0),0)
 				5: #green(155) - left-to-right platforms
