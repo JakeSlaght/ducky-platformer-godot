@@ -21,6 +21,12 @@ var grass_tiles = [];
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	generate_map()
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(_delta: float) -> void:
+	pass
+
+func generate_map() -> void:
 	width = map.get_width()
 	height = map.get_height()
 
@@ -29,9 +35,6 @@ func _ready() -> void:
 			generate_tile_from_pixel_coordinates(x,y)
 	
 	water.set_cells_terrain_connect(grass_tiles,source_id,0)
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	pass
 
 func generate_tile_from_pixel_coordinates(x: int, y: int) -> void:
 	var pixelColor = map.get_pixel(x,y)
@@ -75,7 +78,7 @@ func generate_tile_from_pixel_coordinates(x: int, y: int) -> void:
 				8: #white - player
 					var duck = duck_scene.instantiate()
 					duck.global_position = Vector2(x * TILE_SIZE, y * TILE_SIZE)
-					SignalBus.update_lives_counter.emit(duck.lives)
+					duck.current_map = self
 					add_child(duck)
 					camera.player = duck
 
@@ -89,3 +92,6 @@ func check_custom_tile_data_from_player(tile_location: Vector2i, _custom_data_ta
 	var tile = water.get_cell_tile_data(tile_location)
 	if tile:
 		pass
+
+func reset_map() -> void:
+	water.clear()

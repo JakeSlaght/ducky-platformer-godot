@@ -12,13 +12,12 @@ var lives: int = 3
 var is_dying:bool = false
 
 func _ready() -> void:
+	SignalBus.update_lives_counter.emit(lives)
 	death_timer.connect('timeout', Callable(self, 'death_timeout'))
 
 func _physics_process(delta: float) -> void:
 	if is_dying:
 		return
-
-	_collision_check(delta)
 
 	var direction := Input.get_axis("left", "right")
 	
@@ -55,12 +54,8 @@ func _jump() -> void:
 			#animated_sprite_2d.flip_h = velocity.x < 0
 			#move_and_slide()
 
-func _collision_check(delta) -> void:
-	pass
-
 func _on_hit_box_body_entered(body: Node2D) -> void:
 	if body.is_in_group("enemies") and body.is_alive:
-		print_debug('we should take damage')
 		_handle_health()
 
 func _handle_health() -> void:
@@ -71,9 +66,17 @@ func _handle_health() -> void:
 	else:
 		lives = 0
 		die()
-		#game.visible = false
-		#menu.visible = true
-		#hud.visible = false
+		
+	if lives > 0:
+		# TO DO: Figure out what I need to do at thsi point.
+		# Reloading the map doesn't work because all the children remain and
+		# this is not good enough
+		# I need to implement a level reload format.
+		# maybe I need to implement a game save/load format?
+		# This will also allow me to maintain monsters?
+		print_debug('need to reload the current level')
+	else:
+		print_debug('create a you died menu')
 
 func die() -> void:
 	if is_dying:
