@@ -1,21 +1,27 @@
 class_name Duck extends CharacterBody2D
+
+@onready var death_timer: Timer = %death_timer
 @onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
-#@onready var game: Node2D = %game
-#@onready var menus: CanvasLayer = %menus
 @export var current_map: Map
 
-const SPEED = 200.0
+const SPEED = 450.0
 const JUMP_VELOCITY = -300.0
 var double_jump:bool = false
 var tile_position: Vector2i
+var lives: int = 3
+var is_dying:bool = false
+
+func _ready() -> void:
+	death_timer.connect('timeout', Callable(self, 'death_timeout'))
 
 func _physics_process(delta: float) -> void:
+	if is_dying:
+		return
+
 	_collision_check(delta)
 
 	var direction := Input.get_axis("left", "right")
-	#tile_position = current_map.player_to_tile_location(global_position)
 	
-	animated_sprite_2d.flip_h = velocity.x < 0
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
@@ -28,6 +34,7 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 	
 	move_and_slide()
+	animated_sprite_2d.flip_h = velocity.x < 0
 
 func _jump() -> void:
 		# Handle jump.
@@ -50,18 +57,31 @@ func _jump() -> void:
 
 func _collision_check(delta) -> void:
 	pass
-	#var collision_info = move_and_collide(velocity * delta)
-	#if collision_info:
-		#var collider = collision_info.get_collider()
-#
-		#if collider.name == 'pitfall':
-			#print_debug(collider.position)
-			#print_debug('you dead', '(x, y): (', position.x, ',', position.y, ')', velocity)
-			##position = Vector2i(32,0)
-			##game.visible = falsed
-			##menus.visible = true
-		##if collider.name == 'platform':
-			##print_debug(collider)
-			###print_debug(collider.velocity)
-			###print_debug(collider.get_collider_velocity())
-			###print_debug(get_platform_velocity())
+
+func _on_hit_box_body_entered(body: Node2D) -> void:
+	if body.is_in_group("enemies") and body.is_alive:
+		print_debug('we should take damage')
+		_handle_health()
+
+func _handle_health() -> void:
+	var updated_lives = lives - 1
+	if updated_lives > 0:
+		lives = updated_lives
+		die()
+	else:
+		lives = 0
+		die()
+		#game.visible = false
+		#menu.visible = true
+		#hud.visible = false
+
+func die() -> void:
+	if is_dying:
+		return
+	
+	is_dying = true
+	animated_sprite_2d.play('die')
+	SignalBus.update_lives_counter.emit(lives)
+	
+func death_timeout() -> void:
+	pass

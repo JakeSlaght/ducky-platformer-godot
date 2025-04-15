@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://4o2nx7uj576a"]
+[gd_scene load_steps=20 format=3 uid="uid://4o2nx7uj576a"]
 
 [ext_resource type="Texture2D" uid="uid://xfa8w0moyfqr" path="res://images/duck.png" id="1_4ouwr"]
 [ext_resource type="Script" uid="uid://d12hvn4evofvo" path="res://duck/duck.gd" id="1_8etuo"]
+[ext_resource type="Texture2D" uid="uid://cpkokf1lqx64d" path="res://images/duck_dying.png" id="3_1n4f5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r1fxg"]
 atlas = ExtResource("1_4ouwr")
@@ -25,6 +26,30 @@ region = Rect2(128, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mlbhw"]
 atlas = ExtResource("1_4ouwr")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_th5ro"]
+atlas = ExtResource("3_1n4f5")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_buner"]
+atlas = ExtResource("3_1n4f5")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x12mf"]
+atlas = ExtResource("3_1n4f5")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mo112"]
+atlas = ExtResource("3_1n4f5")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bqwvw"]
+atlas = ExtResource("3_1n4f5")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ixm3"]
+atlas = ExtResource("3_1n4f5")
 region = Rect2(160, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_duo6x"]
@@ -51,23 +76,74 @@ animations = [{
 "loop": true,
 "name": &"default",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_th5ro")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_buner")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x12mf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mo112")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bqwvw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ixm3")
+}],
+"loop": false,
+"name": &"die",
+"speed": 5.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uptgx"]
-size = Vector2(27, 29)
+size = Vector2(19, 19.25)
 
-[node name="Duck" type="CharacterBody2D"]
-collision_layer = 2
-collision_mask = 5
-platform_floor_layers = 4294967045
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_70n7o"]
+size = Vector2(28, 23)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1n4f5"]
+size = Vector2(17, 6)
+
+[node name="Duck" type="CharacterBody2D" groups=["player"]]
+collision_layer = 7
+collision_mask = 13
+platform_floor_layers = 4294901765
 script = ExtResource("1_8etuo")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_duo6x")
 autoplay = "default"
-frame_progress = 0.856479
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1.5, 1.5)
+position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_uptgx")
+
+[node name="hit_box" type="Area2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, -6)
+collision_layer = 3
+collision_mask = 13
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hit_box"]
+position = Vector2(1, 4.5)
+shape = SubResource("RectangleShape2D_70n7o")
+
+[node name="feet" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 13
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="feet"]
+position = Vector2(0.5, 13)
+shape = SubResource("RectangleShape2D_1n4f5")
+
+[node name="death_timer" type="Timer" parent="."]
+unique_name_in_owner = true
+
+[connection signal="body_entered" from="hit_box" to="." method="_on_hit_box_body_entered"]

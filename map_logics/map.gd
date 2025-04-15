@@ -8,13 +8,8 @@ var platform_scene = load("res://map_logics/platform.tscn")
 var level_end_scene = load("res://level_ending.tscn")
 var duck_scene = load("res://duck/duck.tscn")
 var slug_scene = load("res://enemy.tscn")
-#var camera_scene = load("res://camera.tscn")
 
 var TILE_SIZE: int = 32
-#@onready var dirt: TileMapLayer = %dirt
-#@onready var grass: TileMapLayer = %grass
-#@onready var empty: TileMapLayer = %empty
-#@onready var wall: TileMapLayer = %wall
 
 var source_id: int = 3
 var width: int
@@ -23,22 +18,19 @@ var pit_width: int
 var pit_height: int
 var map = Image.load_from_file("res://images/test_platform_map.png")
 var grass_tiles = [];
-#var pit_map = Image.load_from_file("res://images/test_platform_map_pits.png")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	width = map.get_width()
 	height = map.get_height()
-	
-	#pit_width = pit_map.get_width()
-	#pit_height = pit_map.get_height()
+
 	for x in range(width):
 		for y in range(height):
 			generate_tile_from_pixel_coordinates(x,y)
 	
 	water.set_cells_terrain_connect(grass_tiles,source_id,0)
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 
 func generate_tile_from_pixel_coordinates(x: int, y: int) -> void:
@@ -82,10 +74,8 @@ func generate_tile_from_pixel_coordinates(x: int, y: int) -> void:
 					add_child(level_end)
 				8: #white - player
 					var duck = duck_scene.instantiate()
-					#var camera = camera_scene.instantiate()
 					duck.global_position = Vector2(x * TILE_SIZE, y * TILE_SIZE)
-					#camera.player = duck
-					#add_child(camera)
+					SignalBus.update_lives_counter.emit(duck.lives)
 					add_child(duck)
 					camera.player = duck
 
@@ -95,8 +85,7 @@ func player_to_tile_location(player_position: Vector2) -> Vector2i:
 
 	return Vector2i(tile_x, tile_y)
 	
-func check_custom_tile_data_from_player(tile_location: Vector2i, custom_data_tag: String) -> void:
+func check_custom_tile_data_from_player(tile_location: Vector2i, _custom_data_tag: String) -> void:
 	var tile = water.get_cell_tile_data(tile_location)
 	if tile:
-		#print_debug(tile.get_custom_data(custom_data_tag))/
 		pass
