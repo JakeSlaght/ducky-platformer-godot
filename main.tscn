@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://br7kqt3kh4b00"]
+[gd_scene load_steps=5 format=3 uid="uid://br7kqt3kh4b00"]
 
 [ext_resource type="PackedScene" uid="uid://kg7mst531sth" path="res://background.tscn" id="1_o3q1b"]
 [ext_resource type="PackedScene" uid="uid://bjv0xrhllcykg" path="res://map_logics/map.tscn" id="2_5lceh"]
-[ext_resource type="PackedScene" uid="uid://82wup3kv6atu" path="res://camera.tscn" id="3_1bvp3"]
 [ext_resource type="Script" uid="uid://c2clnay33hij8" path="res://hud.gd" id="4_lquwl"]
 [ext_resource type="PackedScene" uid="uid://rgab1bv8hh8d" path="res://menu.tscn" id="6_7mycd"]
 
@@ -13,13 +12,11 @@ unique_name_in_owner = true
 visible = false
 
 [node name="background" parent="game" instance=ExtResource("1_o3q1b")]
+visible = false
 scroll_offset = Vector2(-1040, 324)
 
-[node name="map" parent="game" node_paths=PackedStringArray("camera") instance=ExtResource("2_5lceh")]
-camera = NodePath("../Camera2D")
-
-[node name="Camera2D" parent="game" instance=ExtResource("3_1bvp3")]
-position = Vector2(582, 327)
+[node name="map" parent="game" instance=ExtResource("2_5lceh")]
+map_name = "test"
 
 [node name="hud" type="CanvasLayer" parent="game"]
 unique_name_in_owner = true

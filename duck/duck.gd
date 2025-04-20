@@ -2,7 +2,7 @@ class_name Duck extends CharacterBody2D
 
 @onready var death_timer: Timer = %death_timer
 @onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
-@export var current_map: Map
+@export var current_map: String
 
 const SPEED = 450.0
 const JUMP_VELOCITY = -300.0
@@ -62,19 +62,16 @@ func _handle_health() -> void:
 	var updated_lives = lives - 1
 	if updated_lives > 0:
 		lives = updated_lives
+		Loader.create_new_game(self)
 		die()
 	else:
 		lives = 0
 		die()
 		
 	if lives > 0:
-		# TO DO: Figure out what I need to do at thsi point.
-		# Reloading the map doesn't work because all the children remain and
-		# this is not good enough
-		# I need to implement a level reload format.
-		# maybe I need to implement a game save/load format?
-		# This will also allow me to maintain monsters?
 		print_debug('need to reload the current level')
+		Loader.load_game()
+		get_tree().reload_current_scene()
 	else:
 		print_debug('create a you died menu')
 
@@ -87,4 +84,5 @@ func die() -> void:
 	SignalBus.update_lives_counter.emit(lives)
 	
 func death_timeout() -> void:
+	#get_tree().reload_current_scene()
 	pass

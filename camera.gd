@@ -11,15 +11,18 @@ func _ready():
 func calculate_and_set_camera_transform() -> void:
 	var canvas_transform = get_viewport().get_canvas_transform()
 	canvas_transform[2] = player_world_pos * window_size
+
 	get_viewport().set_canvas_transform(canvas_transform)
 	
 func get_player_world_pos():
+	if !player:
+		return Vector2(0,0)
 	# Converts the player position to the map he's on. Returns the map id/coordinates as Vector2
 	var pos = player.get_position()
 	var x = floor(pos.x / window_size.x)
 	var y = floor(pos.y / window_size.y)
+	
 	return Vector2(x, y)
-
 
 # This is a basic solution to the problem. Another way would be to divide the world using a grid
 # and to check on which cell the player is. With each map containing the same amount of cells,
@@ -33,3 +36,4 @@ func _physics_process(delta: float):
 	if new_player_world_pos != player_world_pos:
 		player_world_pos = -new_player_world_pos
 		calculate_and_set_camera_transform()
+		

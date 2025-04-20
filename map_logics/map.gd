@@ -1,12 +1,13 @@
 class_name Map extends Node2D
 
+@export var duck: Duck
+@export var map_name: String
 @export var colors: PackedColorArray
 @export var camera: Camera2D
 @onready var water: TileMapLayer = %water
 
 var platform_scene = load("res://map_logics/platform.tscn")
 var level_end_scene = load("res://level_ending.tscn")
-var duck_scene = load("res://duck/duck.tscn")
 var slug_scene = load("res://enemy.tscn")
 
 var TILE_SIZE: int = 32
@@ -16,17 +17,13 @@ var width: int
 var height: int
 var pit_width: int
 var pit_height: int
-var map = Image.load_from_file("res://images/test_platform_map.png")
 var grass_tiles = [];
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	generate_map()
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	pass
+var map_path: String
+var map: Image
 
 func generate_map() -> void:
+	map_path = 'res://images/%s.png' %[map_name]
+	map = Image.load_from_file(map_path)
 	width = map.get_width()
 	height = map.get_height()
 
@@ -76,11 +73,8 @@ func generate_tile_from_pixel_coordinates(x: int, y: int) -> void:
 					level_end.global_position = Vector2(x * TILE_SIZE, y * TILE_SIZE)
 					add_child(level_end)
 				8: #white - player
-					var duck = duck_scene.instantiate()
 					duck.global_position = Vector2(x * TILE_SIZE, y * TILE_SIZE)
-					duck.current_map = self
-					add_child(duck)
-					camera.player = duck
+
 
 func player_to_tile_location(player_position: Vector2) -> Vector2i:
 	var tile_x = int(player_position.x / width)
