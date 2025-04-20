@@ -9,6 +9,7 @@ class_name Map extends Node2D
 var platform_scene = load("res://map_logics/platform.tscn")
 var level_end_scene = load("res://level_ending.tscn")
 var slug_scene = load("res://enemy.tscn")
+var mystery_box_scene = load("res://mystery_box.tscn")
 
 var TILE_SIZE: int = 32
 
@@ -74,7 +75,10 @@ func generate_tile_from_pixel_coordinates(x: int, y: int) -> void:
 					add_child(level_end)
 				8: #white - player
 					duck.global_position = Vector2(x * TILE_SIZE, y * TILE_SIZE)
-
+				9: #gray(56) - mystery box
+					var new_box = mystery_box_scene.instantiate()
+					new_box.global_position = Vector2(x * TILE_SIZE, y * TILE_SIZE)
+					add_child(new_box)
 
 func player_to_tile_location(player_position: Vector2) -> Vector2i:
 	var tile_x = int(player_position.x / width)

@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 SignalBus="*res://singletons/signal_bus.gd"
 Loader="*res://singletons/loader.gd"
+Global="*res://singletons/global.gd"
 
 [global_group]
 

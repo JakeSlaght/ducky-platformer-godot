@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dktcv1jmjam8q"
-path="res://.godot/imported/garys.jpg-30e21716c41feab069f9d9798480085c.ctex"
+uid="uid://dvfj6hrey450a"
+path="res://.godot/imported/mysterybox.png-040f4768eed00d96c395a522fc460e63.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/garys.jpg"
-dest_files=["res://.godot/imported/garys.jpg-30e21716c41feab069f9d9798480085c.ctex"]
+source_file="res://images/mysterybox.png"
+dest_files=["res://.godot/imported/mysterybox.png-040f4768eed00d96c395a522fc460e63.ctex"]
 
 [params]
 

@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://cn6in1f5htf0g"]
+
+[ext_resource type="Script" uid="uid://bft700lux38e8" path="res://mystery_box.gd" id="1_eb6tb"]
+[ext_resource type="Texture2D" uid="uid://dvfj6hrey450a" path="res://images/mysterybox.png" id="1_ssewh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eb6tb"]
+size = Vector2(32, 6)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yynod"]
+size = Vector2(32, 26)
+
+[node name="MysteryBox" type="Area2D"]
+position = Vector2(16, 16)
+script = ExtResource("1_eb6tb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(16, 29)
+shape = SubResource("RectangleShape2D_eb6tb")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(16, 16)
+texture = ExtResource("1_ssewh")
+hframes = 2
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(16, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, -3)
+shape = SubResource("RectangleShape2D_yynod")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

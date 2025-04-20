@@ -5,11 +5,12 @@ class_name Duck extends CharacterBody2D
 @export var current_map: String
 
 const SPEED = 450.0
-const JUMP_VELOCITY = -300.0
+const JUMP_VELOCITY = -450.0
 var double_jump:bool = false
 var tile_position: Vector2i
 var lives: int = 3
 var is_dying:bool = false
+var is_big: bool = false
 
 func _ready() -> void:
 	SignalBus.update_lives_counter.emit(lives)
@@ -56,7 +57,10 @@ func _jump() -> void:
 
 func _on_hit_box_body_entered(body: Node2D) -> void:
 	if body.is_in_group("enemies") and body.is_alive:
-		_handle_health()
+		if is_big:
+			become_small()
+		else:
+			_handle_health()
 
 func _handle_health() -> void:
 	var updated_lives = lives - 1
@@ -82,7 +86,20 @@ func die() -> void:
 	is_dying = true
 	animated_sprite_2d.play('die')
 	SignalBus.update_lives_counter.emit(lives)
-	
+
 func death_timeout() -> void:
 	#get_tree().reload_current_scene()
 	pass
+
+func become_big() -> void:
+	is_big = true
+	self.scale = Vector2(1.5, 1.5)
+
+func become_small() -> void:
+	is_big = false
+	self.scale = Vector2(1, 1)
+
+
+func _on_feet_body_entered(body: Node2D) -> void:
+	if body.is_in_group("enemies") and body.is_alive:
+		velocity.y = JUMP_VELOCITY
