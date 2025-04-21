@@ -26,8 +26,8 @@ func change_direction() -> Vector2:
 	var directions = [Vector2.LEFT, Vector2.RIGHT] # [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
 	return directions[randi() % directions.size()]
 
-
 func _on_hitbox_body_entered(body: Node2D) -> void:
 	if body.is_in_group('player'):
+		print_debug('test')
 		is_alive = false
 		queue_free()
