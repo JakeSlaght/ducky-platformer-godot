@@ -1,44 +1,82 @@
 class_name Duck extends CharacterBody2D
 
-@onready var death_timer: Timer = %death_timer
 @onready var animated_sprite_2d: AnimatedSprite2D = %AnimatedSprite2D
+@onready var death_timer: Timer = %death_timer
+@onready var acorn_firing_timer: Timer = %acorn_firing_timer
+
 @export var current_map: String
 
-const SPEED = 450.0
-const JUMP_VELOCITY = -450.0
-var double_jump:bool = false
+const SPEED: float = 450.0
+const JUMP_VELOCITY: float = -450.0
 var tile_position: Vector2i
 var lives: int = 3
+
+var double_jump:bool = false
 var is_dying:bool = false
 var is_big: bool = false
+var is_firing_acorn: bool = false
+var can_fire_acorn: bool = false
+var is_jumping: bool = false
+
+var player_direction: int = 1
+
 
 func _ready() -> void:
 	SignalBus.update_lives_counter.emit(lives)
 	death_timer.connect('timeout', Callable(self, 'death_timeout'))
+	acorn_firing_timer.connect('timeout', Callable(self, 'firing_timeout'))
 
 func _physics_process(delta: float) -> void:
 	if is_dying:
 		return
 
-	var direction := Input.get_axis("left", "right")
-	
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
+	if Global.current_state == Global.PlayerState.ACORN and Input.is_action_just_pressed('fire'):
+		_fire_thong()
+
 	_jump()
+
+	var direction := Input.get_axis("left", "right")
 
 	if direction:
 		velocity.x = direction * SPEED
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 	
+	# update animation for jumping, etc
 	move_and_slide()
-	animated_sprite_2d.flip_h = velocity.x < 0
+
+func _update_animation(direction) -> void:
+	if is_dying or is_firing_acorn:
+		return
+
+	## TODO: Create an idle and jump animation for duck!
+	## TODO: Create animations for acorn variants
+	match Global.current_state:
+		Global.PlayerState.SMALL, Global.PlayerState.BIG:
+			if is_jumping:
+				pass
+			elif direction != 0:
+				animated_sprite_2d.flip_h = velocity.x < 0
+				animated_sprite_2d.play('run')
+			else: #idle
+				pass
+		Global.PlayerState.ACORN:
+			if is_jumping:
+				pass
+			elif direction != 0:
+				animated_sprite_2d.flip_h = velocity.x < 0
+				animated_sprite_2d.play('run')
+			else: #idle
+				pass
 
 func _jump() -> void:
 		# Handle jump.
 	if Input.is_action_pressed("jump") and is_on_floor():
+		is_jumping = true
 		velocity.y = JUMP_VELOCITY
 		double_jump = !double_jump
 		
@@ -57,10 +95,13 @@ func _jump() -> void:
 
 func _on_hit_box_body_entered(body: Node2D) -> void:
 	if body.is_in_group("enemies") and body.is_alive:
-		if is_big:
-			become_small()
-		else:
-			_handle_health()
+		match Global.current_state:
+			Global.PlayerState.SMALL:
+				_handle_health()
+			Global.PlayerState.BIG:
+				Global.current_state = Global.PlayerState.SMALL
+			Global.PlayerState.ACORN:
+				Global.current_state = Global.PlayerState. BIG
 
 func _handle_health() -> void:
 	var updated_lives = lives - 1
@@ -92,14 +133,31 @@ func death_timeout() -> void:
 	pass
 
 func become_big() -> void:
-	is_big = true
+	Global.current_state = Global.PlayerState.BIG
 	self.scale = Vector2(1.5, 1.5)
 
 func become_small() -> void:
-	is_big = false
+	Global.current_state = Global.PlayerState.SMALL
 	self.scale = Vector2(1, 1)
-
+	
+func got_acorn() -> void:
+	Global.current_state = Global.PlayerState.ACORN
 
 func _on_feet_body_entered(body: Node2D) -> void:
 	if body.is_in_group("enemies") and body.is_alive:
 		velocity.y = JUMP_VELOCITY
+
+func _fire_thong() -> void:
+	is_firing_acorn = true
+	print('firing off acorn')
+	var acorn = load("res://acorn.tscn").instantiate()
+	acorn.global_position = Vector2(self.global_position.x, self.global_position.y - 15)
+	acorn.set('velocity', Vector2(500 * player_direction, 0))
+	print('acorn fired')
+	get_parent().add_child(acorn)
+	##TODO: create acorn firing
+	#animated_sprite_2d.play('acorn_fire')
+	acorn_firing_timer.start(1.0)
+
+func firing_timeout() -> void:
+	is_firing_acorn = false

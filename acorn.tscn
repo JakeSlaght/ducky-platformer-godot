@@ -1,0 +1,94 @@
+[gd_scene load_steps=14 format=3 uid="uid://bg6r202uxk7bw"]
+
+[ext_resource type="Script" uid="uid://dukemvbyil0bn" path="res://acorn.gd" id="1_erywe"]
+[ext_resource type="Texture2D" uid="uid://o3inqgtty2oy" path="res://images/acorn_projectile.png" id="1_pjgfi"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cq1xx"]
+atlas = ExtResource("1_pjgfi")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b8w66"]
+atlas = ExtResource("1_pjgfi")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1665t"]
+atlas = ExtResource("1_pjgfi")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n38tc"]
+atlas = ExtResource("1_pjgfi")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uvbcf"]
+atlas = ExtResource("1_pjgfi")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oj572"]
+atlas = ExtResource("1_pjgfi")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mvgvw"]
+atlas = ExtResource("1_pjgfi")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pslry"]
+atlas = ExtResource("1_pjgfi")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tm3jm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cq1xx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b8w66")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1665t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n38tc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uvbcf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oj572")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mvgvw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pslry")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7jobg"]
+radius = 3.16228
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mlkdf"]
+radius = 6.0
+
+[node name="Acorn" type="Area2D"]
+script = ExtResource("1_erywe")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_tm3jm")
+autoplay = "default"
+frame = 4
+frame_progress = 0.48459
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_7jobg")
+
+[node name="hitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
+shape = SubResource("CircleShape2D_mlkdf")
+
+[connection signal="body_entered" from="hitbox" to="." method="_on_hitbox_body_entered"]

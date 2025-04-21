@@ -17,7 +17,13 @@ func _on_body_entered(body: Node2D) -> void:
 func _bump_block() -> void:
 	state = State.BUMPED
 	sprite_2d.frame = 1
-	Global.spawn_bread(self.global_position + Vector2(0, -20))
+	
+	match Global.current_state:
+		Global.PlayerState.SMALL:
+			Global.spawn_bread(self.global_position + Vector2(0, -20))
+		Global.PlayerState.BIG, Global.PlayerState.ACORN:
+			Global.spawn_acorn(self.global_position + Vector2(0, -30))
+
 	_bump_upwards()
 	var timer = get_tree().create_timer(0.2)
 	await timer.timeout
