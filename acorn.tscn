@@ -78,15 +78,20 @@ script = ExtResource("1_erywe")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
+position = Vector2(0, 7)
+scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_tm3jm")
 autoplay = "default"
 frame = 4
 frame_progress = 0.48459
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 7)
 shape = SubResource("CircleShape2D_7jobg")
 
 [node name="hitbox" type="Area2D" parent="."]
+position = Vector2(0, 7)
+collision_mask = 9
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
 shape = SubResource("CircleShape2D_mlkdf")
