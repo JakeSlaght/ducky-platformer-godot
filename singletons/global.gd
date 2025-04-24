@@ -2,6 +2,7 @@ extends Node
 
 enum PlayerState { SMALL, BIG, ACORN }
 var current_state: PlayerState = PlayerState.SMALL
+var twigs_total: int = 0
 
 func spawn_bread(position: Vector2) -> void:
 	var load_of_bread_scene = load("res://load_of_bread.tscn")

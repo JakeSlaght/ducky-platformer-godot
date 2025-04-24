@@ -23,6 +23,7 @@ func _on_game_pressed() -> void:
 
 	print_debug('load in the map and data')
 	_load_game(game_data)
+	SignalBus.update_twigs_counter.emit(Global.twigs_total)
 	game.visible = true
 	hud.visible = true
 	menus.visible = false

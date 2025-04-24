@@ -1,0 +1,51 @@
+[gd_scene load_steps=8 format=3 uid="uid://60ei2ebb2neb"]
+
+[ext_resource type="Texture2D" uid="uid://xh8gif2erfo0" path="res://images/twig_coin.png" id="1_e0prm"]
+[ext_resource type="Script" uid="uid://cgtxpf50evqfg" path="res://twig.gd" id="1_q01it"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qmpk0"]
+atlas = ExtResource("1_e0prm")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mjaf3"]
+atlas = ExtResource("1_e0prm")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0ucjg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qmpk0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mjaf3")
+}],
+"loop": true,
+"name": &"default",
+"speed": 2.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_34ecj"]
+size = Vector2(7, 22)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bdpfl"]
+radius = 15.0
+
+[node name="Twig" type="Area2D"]
+script = ExtResource("1_q01it")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_0ucjg")
+autoplay = "default"
+frame_progress = 0.220562
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 1)
+shape = SubResource("RectangleShape2D_34ecj")
+
+[node name="hitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
+shape = SubResource("CircleShape2D_bdpfl")
+
+[connection signal="body_entered" from="hitbox" to="." method="_on_hitbox_body_entered"]

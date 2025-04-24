@@ -10,6 +10,7 @@ var platform_scene = load("res://map_logics/platform.tscn")
 var level_end_scene = load("res://level_ending.tscn")
 var slug_scene = load("res://enemy.tscn")
 var mystery_box_scene = load("res://mystery_box.tscn")
+var twig_scene = load("res://twig.tscn")
 
 var TILE_SIZE: int = 32
 
@@ -79,7 +80,10 @@ func generate_tile_from_pixel_coordinates(x: int, y: int) -> void:
 					var new_box = mystery_box_scene.instantiate()
 					new_box.global_position = Vector2(x * TILE_SIZE, y * TILE_SIZE)
 					add_child(new_box)
-
+				10: #greenish (74,76,38) - coins
+					var new_twig = twig_scene.instantiate()
+					new_twig.global_position = Vector2(x * TILE_SIZE, y * TILE_SIZE)
+					add_child(new_twig)
 func player_to_tile_location(player_position: Vector2) -> Vector2i:
 	var tile_x = int(player_position.x / width)
 	var tile_y = int(player_position.y / height)
