@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://4o2nx7uj576a"]
+[gd_scene load_steps=22 format=3 uid="uid://4o2nx7uj576a"]
 
 [ext_resource type="Texture2D" uid="uid://xfa8w0moyfqr" path="res://images/duck.png" id="1_4ouwr"]
 [ext_resource type="Script" uid="uid://d12hvn4evofvo" path="res://duck/duck.gd" id="1_8etuo"]
@@ -28,6 +28,10 @@ region = Rect2(128, 0, 32, 32)
 [sub_resource type="AtlasTexture" id="AtlasTexture_5ixm3"]
 atlas = ExtResource("3_1n4f5")
 region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tl1vh"]
+atlas = ExtResource("1_4ouwr")
+region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r1fxg"]
 atlas = ExtResource("1_4ouwr")
@@ -80,6 +84,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_tl1vh")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_r1fxg")
 }, {
 "duration": 1.0,
@@ -121,7 +133,8 @@ script = ExtResource("1_8etuo")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_duo6x")
-animation = &"run"
+animation = &"idle"
+frame_progress = 0.915183
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -2)

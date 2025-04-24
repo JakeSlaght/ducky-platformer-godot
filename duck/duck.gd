@@ -10,6 +10,7 @@ const SPEED: float = 450.0
 const JUMP_VELOCITY: float = -450.0
 var tile_position: Vector2i
 var lives: int = 3
+var player_direction: int = 1
 
 var double_jump:bool = false
 var is_dying:bool = false
@@ -18,14 +19,12 @@ var is_firing_acorn: bool = false
 var can_fire_acorn: bool = false
 var is_jumping: bool = false
 
-var player_direction: int = 1
-
-
 func _ready() -> void:
 	SignalBus.update_lives_counter.emit(lives)
 	death_timer.connect('timeout', Callable(self, 'death_timeout'))
 	acorn_firing_timer.connect('timeout', Callable(self, 'firing_timeout'))
-
+	animated_sprite_2d.flip_h = false
+	
 func _physics_process(delta: float) -> void:
 	if is_dying:
 		return
@@ -34,22 +33,28 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 
+	var direction: float = Input.get_axis("left", "right")
+	if direction < 0:
+		animated_sprite_2d.flip_h = true
+		player_direction = -1
+	else:
+		animated_sprite_2d.flip_h = false
+		player_direction = 1
+
 	if Global.current_state == Global.PlayerState.ACORN and Input.is_action_just_pressed('fire'):
-		_fire_thong()
+		_fire_acorn()
 
 	_jump()
-
-	var direction := Input.get_axis("left", "right")
 
 	if direction:
 		velocity.x = direction * SPEED
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
-	
-	# update animation for jumping, etc
+
+	_update_animation(direction)
 	move_and_slide()
 
-func _update_animation(direction) -> void:
+func _update_animation(direction: float) -> void:
 	if is_dying or is_firing_acorn:
 		return
 
@@ -60,18 +65,16 @@ func _update_animation(direction) -> void:
 			if is_jumping:
 				pass
 			elif direction != 0:
-				animated_sprite_2d.flip_h = velocity.x < 0
 				animated_sprite_2d.play('run')
 			else: #idle
-				pass
+				animated_sprite_2d.play('idle')
 		Global.PlayerState.ACORN:
 			if is_jumping:
 				pass
 			elif direction != 0:
-				animated_sprite_2d.flip_h = velocity.x < 0
 				animated_sprite_2d.play('run')
 			else: #idle
-				pass
+				animated_sprite_2d.play('idle')
 
 func _jump() -> void:
 		# Handle jump.
@@ -151,7 +154,7 @@ func _on_feet_body_entered(body: Node2D) -> void:
 	if body.is_in_group("enemies") and body.is_alive:
 		velocity.y = JUMP_VELOCITY
 
-func _fire_thong() -> void:
+func _fire_acorn() -> void:
 	is_firing_acorn = true
 	var acorn = load("res://acorn.tscn").instantiate()
 	acorn.global_position = Vector2(self.global_position.x, self.global_position.y - 15)
