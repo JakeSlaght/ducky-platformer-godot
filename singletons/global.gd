@@ -2,7 +2,7 @@ extends Node
 
 enum PlayerState { SMALL, BIG, ACORN }
 var current_state: PlayerState = PlayerState.SMALL
-var twigs_total: int = 0
+var twigs_total: int = 99
 
 func spawn_bread(position: Vector2) -> void:
 	var load_of_bread_scene = load("res://load_of_bread.tscn")
@@ -15,3 +15,12 @@ func spawn_acorn(position: Vector2) -> void:
 	var acorn_powerup = acorn_powerup_scene.instantiate()
 	acorn_powerup.global_position = position
 	get_tree().root.add_child(acorn_powerup)
+
+func add_duck_life() -> bool:
+	var remaining_twigs = twigs_total - 100
+	if remaining_twigs >= 0:
+		twigs_total = remaining_twigs
+		SignalBus.update_twigs_counter.emit(0)
+		return true
+	
+	return false

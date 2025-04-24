@@ -18,12 +18,10 @@ func _ready() -> void:
 func _on_game_pressed() -> void:
 	game_data = Loader.load_game()
 	if !game_data:
-		print_debug('create a starting world!')
 		_start_new_game()
 
-	print_debug('load in the map and data')
 	_load_game(game_data)
-	SignalBus.update_twigs_counter.emit(Global.twigs_total)
+	SignalBus.update_twigs_counter.emit(0)
 	game.visible = true
 	hud.visible = true
 	menus.visible = false

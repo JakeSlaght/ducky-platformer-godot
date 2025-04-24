@@ -114,7 +114,6 @@ func _handle_health() -> void:
 		die()
 		
 	if lives > 0:
-		print_debug('need to reload the current level')
 		Loader.load_game()
 		get_tree().reload_current_scene()
 	else:
@@ -131,6 +130,11 @@ func die() -> void:
 func death_timeout() -> void:
 	#get_tree().reload_current_scene()
 	pass
+
+func add_life() -> void:
+	var updated_life = lives + 1
+	lives = updated_life
+	SignalBus.update_lives_counter.emit(lives)
 
 func become_big() -> void:
 	Global.current_state = Global.PlayerState.BIG
@@ -149,11 +153,9 @@ func _on_feet_body_entered(body: Node2D) -> void:
 
 func _fire_thong() -> void:
 	is_firing_acorn = true
-	print('firing off acorn')
 	var acorn = load("res://acorn.tscn").instantiate()
 	acorn.global_position = Vector2(self.global_position.x, self.global_position.y - 15)
 	acorn.set('velocity', Vector2(500 * player_direction, 0))
-	print('acorn fired')
 	get_parent().add_child(acorn)
 	##TODO: create acorn firing
 	#animated_sprite_2d.play('acorn_fire')
