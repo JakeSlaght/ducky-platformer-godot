@@ -1,9 +1,51 @@
-[gd_scene load_steps=22 format=3 uid="uid://4o2nx7uj576a"]
+[gd_scene load_steps=36 format=3 uid="uid://4o2nx7uj576a"]
 
 [ext_resource type="Texture2D" uid="uid://xfa8w0moyfqr" path="res://images/duck.png" id="1_4ouwr"]
 [ext_resource type="Script" uid="uid://d12hvn4evofvo" path="res://duck/duck.gd" id="1_8etuo"]
+[ext_resource type="Texture2D" uid="uid://bau8yj1sph7mr" path="res://images/mallard_duck.png" id="2_buner"]
+[ext_resource type="Shader" uid="uid://djocbq2fp8imm" path="res://duck/immortal.gdshader" id="2_x12mf"]
 [ext_resource type="Texture2D" uid="uid://cpkokf1lqx64d" path="res://images/duck_dying.png" id="3_1n4f5"]
 [ext_resource type="Script" uid="uid://dy8dqcsrnu7a6" path="res://camera.gd" id="4_th5ro"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mo112"]
+shader = ExtResource("2_x12mf")
+shader_parameter/time_passed = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tw2ui"]
+atlas = ExtResource("2_buner")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wuqjm"]
+atlas = ExtResource("2_buner")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ach5"]
+atlas = ExtResource("2_buner")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y2053"]
+atlas = ExtResource("2_buner")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_da0nt"]
+atlas = ExtResource("2_buner")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_382w0"]
+atlas = ExtResource("2_buner")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mbwwv"]
+atlas = ExtResource("2_buner")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fu0e5"]
+atlas = ExtResource("2_buner")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kyi77"]
+atlas = ExtResource("2_buner")
+region = Rect2(160, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_th5ro"]
 atlas = ExtResource("3_1n4f5")
@@ -33,6 +75,14 @@ region = Rect2(160, 0, 32, 32)
 atlas = ExtResource("1_4ouwr")
 region = Rect2(0, 0, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_e13lg"]
+atlas = ExtResource("1_4ouwr")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xuka7"]
+atlas = ExtResource("1_4ouwr")
+region = Rect2(96, 0, 32, 32)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_r1fxg"]
 atlas = ExtResource("1_4ouwr")
 region = Rect2(0, 0, 32, 32)
@@ -59,6 +109,48 @@ region = Rect2(160, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_duo6x"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tw2ui")
+}],
+"loop": true,
+"name": &"acorn_idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wuqjm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ach5")
+}],
+"loop": true,
+"name": &"acorn_jump",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y2053")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_da0nt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_382w0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mbwwv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fu0e5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kyi77")
+}],
+"loop": true,
+"name": &"acorn_run",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_th5ro")
@@ -89,6 +181,17 @@ animations = [{
 "loop": true,
 "name": &"idle",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e13lg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xuka7")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 2.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -129,19 +232,21 @@ collision_layer = 7
 collision_mask = 13
 platform_floor_layers = 4294901765
 script = ExtResource("1_8etuo")
+immortal_shader = SubResource("ShaderMaterial_mo112")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_duo6x")
-animation = &"idle"
-frame_progress = 0.915183
+animation = &"acorn_run"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_uptgx")
 
 [node name="hit_box" type="Area2D" parent="."]
 unique_name_in_owner = true
+visible = false
 position = Vector2(0, -6)
 collision_layer = 3
 collision_mask = 13
@@ -151,6 +256,7 @@ position = Vector2(1, 4.5)
 shape = SubResource("RectangleShape2D_70n7o")
 
 [node name="feet" type="Area2D" parent="."]
+visible = false
 collision_layer = 3
 collision_mask = 13
 
@@ -166,6 +272,9 @@ script = ExtResource("4_th5ro")
 player = NodePath("..")
 
 [node name="acorn_firing_timer" type="Timer" parent="."]
+unique_name_in_owner = true
+
+[node name="immortal_timer" type="Timer" parent="."]
 unique_name_in_owner = true
 
 [connection signal="body_entered" from="hit_box" to="." method="_on_hit_box_body_entered"]

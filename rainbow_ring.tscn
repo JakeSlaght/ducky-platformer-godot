@@ -1,0 +1,92 @@
+[gd_scene load_steps=14 format=3 uid="uid://duyq0mrb4f8cx"]
+
+[ext_resource type="Texture2D" uid="uid://55vpi41nid3l" path="res://images/rainbow_ring.png" id="1_rsw6y"]
+[ext_resource type="Script" uid="uid://b6l486jw4cgbj" path="res://rainbow_ring.gd" id="1_smnau"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_smnau"]
+atlas = ExtResource("1_rsw6y")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oc6v1"]
+atlas = ExtResource("1_rsw6y")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6y4y6"]
+atlas = ExtResource("1_rsw6y")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_58lya"]
+atlas = ExtResource("1_rsw6y")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hccoy"]
+atlas = ExtResource("1_rsw6y")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r2f08"]
+atlas = ExtResource("1_rsw6y")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aijan"]
+atlas = ExtResource("1_rsw6y")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_shpyh"]
+atlas = ExtResource("1_rsw6y")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hjxxd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_smnau")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oc6v1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6y4y6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_58lya")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hccoy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r2f08")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aijan")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_shpyh")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_q4e07"]
+radius = 15.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cx2iw"]
+radius = 18.0278
+
+[node name="rainbow_ring" type="Area2D"]
+script = ExtResource("1_smnau")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_hjxxd")
+autoplay = "default"
+frame_progress = 0.165785
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_q4e07")
+
+[node name="hitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="hitbox"]
+shape = SubResource("CircleShape2D_cx2iw")
+
+[connection signal="body_entered" from="hitbox" to="." method="_on_hitbox_body_entered"]

@@ -16,6 +16,19 @@ func spawn_acorn(position: Vector2) -> void:
 	acorn_powerup.global_position = position
 	get_tree().root.add_child(acorn_powerup)
 
+func spawn_twig(position: Vector2) -> void:
+	var twig_scene = load("res://twig.tscn")
+	var twig = twig_scene.instantiate()
+	twig.global_position = position
+	get_tree().root.add_child(twig)
+	
+func spawn_ring(position: Vector2) -> void:
+	var rainbow_ring_scene = load("res://rainbow_ring.tscn")
+	var rainbow_ring = rainbow_ring_scene.instantiate()
+	rainbow_ring.global_position = position
+	get_tree().root.add_child(rainbow_ring)
+
+
 func add_duck_life() -> bool:
 	var remaining_twigs = twigs_total - 100
 	if remaining_twigs >= 0:
