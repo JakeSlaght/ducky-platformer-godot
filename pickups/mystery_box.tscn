@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cn6in1f5htf0g"]
 
-[ext_resource type="Script" uid="uid://bft700lux38e8" path="res://mystery_box.gd" id="1_eb6tb"]
+[ext_resource type="Script" uid="uid://bft700lux38e8" path="res://pickups/mystery_box.gd" id="1_eb6tb"]
 [ext_resource type="Texture2D" uid="uid://dvfj6hrey450a" path="res://images/mysterybox.png" id="1_ssewh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eb6tb"]

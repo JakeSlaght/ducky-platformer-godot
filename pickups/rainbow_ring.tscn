@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://duyq0mrb4f8cx"]
 
 [ext_resource type="Texture2D" uid="uid://55vpi41nid3l" path="res://images/rainbow_ring.png" id="1_rsw6y"]
-[ext_resource type="Script" uid="uid://b6l486jw4cgbj" path="res://rainbow_ring.gd" id="1_smnau"]
+[ext_resource type="Script" uid="uid://b6l486jw4cgbj" path="res://pickups/rainbow_ring.gd" id="1_smnau"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_smnau"]
 atlas = ExtResource("1_rsw6y")

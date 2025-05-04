@@ -8,9 +8,10 @@ class_name Map extends Node2D
 
 var platform_scene = load("res://map_logics/platform.tscn")
 var level_end_scene = load("res://level_ending.tscn")
-var slug_scene = load("res://enemy.tscn")
-var mystery_box_scene = load("res://mystery_box.tscn")
-var twig_scene = load("res://twig.tscn")
+var slug_scene = load("res://enemy/slug.tscn")
+var mystery_box_scene = load("res://pickups/mystery_box.tscn")
+var twig_scene = load("res://pickups/twig.tscn")
+var buzzsaw_scene = load("res://enemy/buzzsaw.tscn")
 
 var TILE_SIZE: int = 32
 
@@ -50,9 +51,9 @@ func generate_tile_from_pixel_coordinates(x: int, y: int) -> void:
 				2: #red - dirt
 					water.set_cell(Vector2i(x,y), source_id, Vector2i(1,0),0)
 				3: #black - enemies
-					var new_enemy = slug_scene.instantiate()
-					new_enemy.global_position = Vector2(x * TILE_SIZE, y * TILE_SIZE)
-					add_child(new_enemy)
+					var new_slug = slug_scene.instantiate()
+					new_slug.global_position = Vector2(x * TILE_SIZE, y * TILE_SIZE)
+					add_child(new_slug)
 				4: #gray(128) - wall
 					water.set_cell(Vector2i(x,y),source_id, Vector2i(4,0),0)
 				5: #green(155) - left-to-right platforms
@@ -84,6 +85,11 @@ func generate_tile_from_pixel_coordinates(x: int, y: int) -> void:
 					var new_twig = twig_scene.instantiate()
 					new_twig.global_position = Vector2(x * TILE_SIZE, y * TILE_SIZE)
 					add_child(new_twig)
+				11: #darkread (81,0,9) - buzzsaw flower
+					var new_buzzsaw = buzzsaw_scene.instantiate()
+					new_buzzsaw.global_position = Vector2(x*TILE_SIZE, y * TILE_SIZE)
+					add_child(new_buzzsaw)
+
 func player_to_tile_location(player_position: Vector2) -> Vector2i:
 	var tile_x = int(player_position.x / width)
 	var tile_y = int(player_position.y / height)

@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://br7kqt3kh4b00"]
 
-[ext_resource type="PackedScene" uid="uid://kg7mst531sth" path="res://background.tscn" id="1_o3q1b"]
+[ext_resource type="PackedScene" uid="uid://kg7mst531sth" path="res://map_logics/background.tscn" id="1_o3q1b"]
 [ext_resource type="PackedScene" uid="uid://bjv0xrhllcykg" path="res://map_logics/map.tscn" id="2_5lceh"]
-[ext_resource type="Script" uid="uid://c2clnay33hij8" path="res://hud.gd" id="4_lquwl"]
-[ext_resource type="PackedScene" uid="uid://rgab1bv8hh8d" path="res://menu.tscn" id="6_7mycd"]
+[ext_resource type="Script" uid="uid://c2clnay33hij8" path="res://map_logics/hud.gd" id="4_lquwl"]
+[ext_resource type="PackedScene" uid="uid://rgab1bv8hh8d" path="res://map_logics/menu.tscn" id="6_7mycd"]
 
 [node name="main" type="Node2D"]
 

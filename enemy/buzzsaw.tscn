@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=3 uid="uid://b1vpe3l0t6ire"]
+
+[ext_resource type="Script" uid="uid://djybyftdj608j" path="res://enemy/buzzsaw.gd" id="1_kw6me"]
+[ext_resource type="Texture2D" uid="uid://dgaqj71hggn8s" path="res://enemy/imgs/buzzsaw.png" id="1_thtwj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kw6me"]
+atlas = ExtResource("1_thtwj")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lpk6q"]
+atlas = ExtResource("1_thtwj")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wh7lg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kw6me")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lpk6q")
+}],
+"loop": true,
+"name": &"default",
+"speed": 3.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_diei0"]
+size = Vector2(26, 15)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dyb56"]
+size = Vector2(26, 2)
+
+[node name="Buzzsaw" type="Area2D" groups=["enemies"]]
+script = ExtResource("1_kw6me")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_wh7lg")
+autoplay = "default"
+frame_progress = 0.457553
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 6.5)
+shape = SubResource("RectangleShape2D_diei0")
+
+[node name="hitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
+position = Vector2(0, -3)
+shape = SubResource("RectangleShape2D_dyb56")
+
+[connection signal="body_entered" from="hitbox" to="." method="_on_hitbox_body_entered"]

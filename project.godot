@@ -13,7 +13,6 @@ config_version=5
 config/name="duck-platformer"
 run/main_scene="uid://br7kqt3kh4b00"
 config/features=PackedStringArray("4.4", "GL Compatibility")
-config/icon="res://icon.svg"
 
 [autoload]
 

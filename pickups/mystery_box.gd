@@ -17,7 +17,7 @@ func _bump_block() -> void:
 	sprite_2d.frame = 1
 
 	var rando_drop = randf()
-	if rando_drop < 0.3:
+	if rando_drop < 0.9:
 		Global.spawn_ring(self.global_position + Vector2(0,-30))
 	else:
 		match Global.current_state:

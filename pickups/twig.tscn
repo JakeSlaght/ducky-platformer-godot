@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://60ei2ebb2neb"]
 
 [ext_resource type="Texture2D" uid="uid://xh8gif2erfo0" path="res://images/twig_coin.png" id="1_e0prm"]
-[ext_resource type="Script" uid="uid://cgtxpf50evqfg" path="res://twig.gd" id="1_q01it"]
+[ext_resource type="Script" uid="uid://cgtxpf50evqfg" path="res://pickups/twig.gd" id="1_q01it"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qmpk0"]
 atlas = ExtResource("1_e0prm")
